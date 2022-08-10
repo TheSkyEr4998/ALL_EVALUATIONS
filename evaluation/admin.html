@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <style>
+            #container{
+                display: flex;
+                height: 500px;
+                margin: 5px;
+            }
+            #input-section{
+                flex: 1;
+                border: 1px solid white;
+                margin-left: 60px;
+            }
+            h1{
+                color: skyblue;
+            }
+            select, input{
+                width: 350px;
+                height: 30px;
+            }
+            textarea{
+                width: 350px;
+                height: 80px;
+            }
+            button{
+                width: 80px;
+                height: 40px;
+                background-color: rgb(14, 117, 158);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="input-section">
+                <h1>Add Product</h1>
+                <hr>
+                <h3>Product Name</h3>
+                <input type="text" placeholder="type here..." id="name">
+                <h3>Category</h3>
+                <select id="category"> 
+                    <option>Electronics</option>
+                    <option>Furnitures</option>
+                    <option>Home Appliances</option>
+                    <option>Books</option>
+                </select>
+                <h3>Image url</h3>
+                <input type="url" placeholder="type here..." id="image">
+                <h3>Price</h3>
+                <input type="number" id="price">
+                <!-- <h3>Gender</h3>
+                <input type="text" placeholder="type here..." id="gender"> -->
+                <h3>Gender</h3>
+                <select id="gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+                <h3>Sold</h3>
+                <!-- <input type="" placeholder="type here..." id="sold"><br><br> -->
+                <select id="sold">
+                    <option>True</option>
+                    <option>False</option>
+                </select><br><br>
+                <button onclick="addItem()">Add</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        var table1 = document.getElementById("table1");
+        var myProducts = [];
+
+        function addItem(){
+            var c1 = document.getElementById("name");
+            var c2 = document.getElementById("category");
+            var c3 = document.getElementById("image");
+            var c4 = document.getElementById("price");
+            var c5 = document.getElementById("gender");
+            var c6 = document.getElementById("sold");
+            myProducts.push(c1.value);
+            myProducts.push(c2.value);
+            myProducts.push(c3.value);
+            myProducts.push(c4.value);
+            myProducts.push(c5.value);
+            myProducts.push(c6.value);
+            
+            localStorage.setItem("Products", JSON.stringify(myProducts));
+        }
+        
+        function copyData(){
+            localItem1 = JSON.parse(localStorage.getItem("Products"));
+            if(localItem1){
+              myProducts=localItem1;
+            }
+            console.log(myProducts);
+        }
+        window.addEventListener("load",copyData);
+
+    </script>
+</html>

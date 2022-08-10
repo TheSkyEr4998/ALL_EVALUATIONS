@@ -1,0 +1,20 @@
+#heading{
+    padding-bottom: 20px;
+    width: 200px;
+    margin-top: 20px;
+    padding-top: 20px;
+    margin-left: 40%;
+    height: 30px;
+    font-size: large;
+}
+/* #myCheck{
+    margin-top: 50px;
+    height: 30px;
+    width: 40px;
+} */
+#click{
+    height: 30px;
+    width: 80px;
+    margin-top: 20px;
+    margin-left: 40%;
+}

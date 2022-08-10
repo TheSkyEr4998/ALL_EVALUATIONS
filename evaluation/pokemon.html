@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <style>
+            table, tr{
+                border: 1px solid black;
+                margin:  auto;
+                width: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+
+        </div>
+    </body>
+    <script>
+        var container = document.getElementById("container");
+        async function getData(){
+            try{
+                var res = await fetch(`https://pokeapi.co/api/v2/ability/?limit=20&offset=20`);
+                var data = await res.json();
+                console.log(data);
+                displayData(data.results);
+            }
+            catch(err){
+                 console.log(err);
+             }
+        }
+        getData();
+        function displayData(data){
+            data.forEach(function(product){
+                var table = document.createElement("table");
+
+                var pokName = document.createElement("tr");
+                pokName.textContent = product.name;
+
+                table.append(pokName);
+                container.append(table);
+            })
+        }
+    </script>
+</html>

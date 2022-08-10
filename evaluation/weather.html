@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            #container{
+                padding-left: 600px;
+                background-color: rgb(80, 70, 70);
+                width: 100%;
+                height: 90px;
+                top: 0px;
+            }
+            #cityName{
+                height: 35px;
+                width: 250px;
+            }
+            #search{
+                height: 35px;
+                width: 50px;
+                background-color: skyblue;
+            }
+            #nav-container{
+                padding-top: 20px;
+            }
+            td{
+                border: 2px solid black;
+                padding: 20px;
+                margin: auto;
+            }
+            table{
+                padding-top: 50px;
+                margin: auto;
+            }
+            body{
+                background-color: powderblue;
+            }
+            img{
+                padding-left: 500px;
+            }
+            h1{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <nav id="container">
+            <div id="nav-container">
+                <input id="cityName" type="text">
+                <button type="submit" id="search" onclick="getData()"><i class="fa fa-search"></i></button>
+            </div>
+        </nav>
+        <div id="display-details">
+
+        </div>
+    </body>
+    <script>
+        var displayDetails = document.getElementById("display-details");
+        async function getData(){
+            var API_KEY = "893b4ea56fe3e189c58a056ca652e2d8";
+            var city = document.getElementById("cityName").value;
+            let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
+            let data = await res.json();
+            displayData(data);
+            console.log(data);
+        }
+        function displayData(data){
+            var table = document.createElement("table");
+            var tr1 = document.createElement("tr");
+            var td1 = document.createElement("td");
+            td1.textContent = "temparature";
+            var td2 = document.createElement("td");
+            td2.textContent = data.main.temp;
+            tr1.append(td1, td2);
+
+            var tr2 = document.createElement("tr");
+            var td3 = document.createElement("td");
+            td3.textContent = "pressure";
+            var td4 = document.createElement("td");
+            td4.textContent = data.main.pressure;
+            tr2.append(td3, td4);
+
+            var tr3 = document.createElement("tr");
+            var td5 = document.createElement("td");
+            td5.textContent = "humidity";
+            var td6 = document.createElement("td");
+            td6.textContent = data.main.humidity;
+            tr3.append(td5, td6);
+
+            var tr4 = document.createElement("tr");
+            var td7 = document.createElement("td");
+            td7.textContent = "sunrise";
+            var td8 = document.createElement("td");
+            td8.textContent = data.sys.sunrise;
+            tr4.append(td7, td8);
+
+            var tr5 = document.createElement("tr");
+            var td9 = document.createElement("td");
+            td9.textContent = "sunset";
+            var td10 = document.createElement("td");
+            td10.textContent = data.sys.sunset;
+            tr5.append(td9, td10);
+
+            var tr6 = document.createElement("tr");
+            var td11 = document.createElement("td");
+            td11.textContent = "weather description";
+            var td12 = document.createElement("td");
+            td12.textContent = data.weather[0].description;
+            tr6.append(td11, td12);
+
+            var tr7 = document.createElement("tr");
+            var td13 = document.createElement("td");
+            td13.textContent = "wind speed";
+            var td14 = document.createElement("td");
+            td14.textContent = data.wind.speed;
+            tr7.append(td13, td14);
+
+            table.append(tr1, tr2, tr3, tr4, tr5, tr6, tr7);
+
+            if(td12.textContent == "clear sky"){
+                var description = document.createElement("h1");
+                description.textContent = td12.textContent;
+                var icon = document.createElement("img");
+                icon.src = "https://images.pexels.com/photos/301599/pexels-photo-301599.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+            }
+            else{
+                var description = document.createElement("h1");
+                description.textContent = td12.textContent;
+                var icon = document.createElement("img");
+                icon.src = "https://images.pexels.com/photos/53594/blue-clouds-day-fluffy-53594.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+            }
+            displayDetails.append(table, description, icon);
+        }
+    </script>
+</html>

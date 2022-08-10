@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <style>
+            #container, #container1{
+                padding-top: 100px;
+            }
+            table, td, th{
+                margin: auto;
+                border: 3px solid black;
+            }
+            td, th{
+                padding: 30px;
+            }
+            th{
+                font-size: x-large;
+            }
+            nav{
+                display: flex;
+                flex-direction: row; 
+                align-items: center;
+                justify-content: space-between;
+                /* padding-bottom: 20px; */
+                border: 1px solid silver;
+                position: fixed;
+                width: 100%;
+                background-color: white;
+                top: 0px;
+            }
+            ul{
+                list-style-type: none;
+            }
+            select{
+                width: 100px;
+                height: 40px;
+                margin: auto;
+                margin-left: 700px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <ol>
+                <li>
+                    <a href="./weather.html">weather</a>
+                </li>
+                <li>
+                    <a href="./search.html">Search</a>
+                </li>
+            </ol>
+        </nav>
+        <div id="container1">
+            <select id="select-type" onclick="getData()">
+                <option>planning</option>
+                <option>nano</option>
+                <option>regional</option>
+                <option>brewpub</option>
+                <option>large</option>
+                <option>micro</option>
+                <option>bar</option>
+                <option>contract</option>
+                <option>proprietor</option>
+                <option>closed</option>
+            </select>
+        </div>
+        <div id="container">
+
+        </div>
+    </body>
+    <script>
+        var container = document.getElementById("container");
+        async function getData(){
+            // let res = await fetch("https://api.openbrewerydb.org/breweries?per_page=20");
+            let selectType = document.getElementById("select-type").value;       
+            let res = await fetch(`https://api.openbrewerydb.org/breweries?by_type=${selectType}&per_page=10`);
+            let data = await res.json();
+            displayData(data);
+            console.log(data);
+        }
+        getData();
+        function displayData(data){
+            var table = document.createElement("table");
+            var tr1 = document.createElement("tr");
+            var th1 = document.createElement("th");
+            th1.textContent = "Name";
+            var th2 = document.createElement("th");
+            th2.textContent = "Brewery_type";
+            var th3 = document.createElement("th");
+            th3.textContent = "City";
+            var th4 = document.createElement("th");
+            th4.textContent = "State";
+            tr1.append(th1, th2, th3, th4);
+            table.append(tr1);
+
+            data.forEach(function (product){
+                container.innerHTML = "";
+
+                var tr2 = document.createElement("tr");
+                var td1 = document.createElement("td");
+                td1.textContent = product.name;
+                var td2 = document.createElement("td");
+                td2.textContent = product.brewery_type;
+                var td3 = document.createElement("td");
+                td3.textContent = product.city;
+                var td4 = document.createElement("td");
+                td4.textContent = product.state;
+
+                tr2.append(td1, td2, td3, td4);
+                table.append(tr2);
+                container.append(table);
+            })
+        }
+    </script>
+</html>

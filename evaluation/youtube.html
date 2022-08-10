@@ -1,0 +1,159 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            #container{
+                display: grid;
+                grid-template-columns: repeat(4, 2fr);
+                padding: 10px;
+                gap: 20px;
+                padding-top: 100px;
+            }
+            #container > div{
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                border: 1px solid black;
+            }
+            nav{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                /* padding-bottom: 20px; */
+                border: 1px solid silver;
+                position: fixed;
+                width: 100%;
+                background-color: white;
+                top: 0px;
+            }
+            #query{
+                width: 538px;
+                height: 40px;
+            }
+            .corner-icons, .first-icons, .middle-icons{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            .corner-icons > li{
+                padding-left: 20px;
+            }
+            .first-icons > li{
+                padding-right: 20px;
+            }
+            #search-icon{
+                /* float: right; */
+                padding: 11px 20px;
+                /* margin-top: 8px; */
+                margin-right: 16px;
+                background: #f8f8f8;
+                font-size: 20px;
+                border: none;
+               cursor: pointer;
+            }
+            ul{
+                list-style-type: none;
+            }
+            .youtube-icon{
+                height: 40px;
+            }
+            #last{
+                padding-right: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- <a target="_blank" href="https://icons8.com/icon/82749/menu">Menu icon by Icons8</a> -->
+        <nav>
+            <div id="first">
+                <ul class="first-icons">
+                    <li>
+                        <img src="https://img.icons8.com/material-outlined/24/000000/menu--v1.png"/> 
+                    </li>
+                    <li>
+                        <!-- <h3>YOUTUBE</h3> -->.
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/003/206/623/small/youtube-editorial-app-icon-free-vector.jpg" class="youtube-icon">
+                    </li>
+                </ul>
+            </div>
+            <!-- <div>
+                <input placeholder="Search" id="query" type="text">
+                <button type="submit" id="search-icon" onclick="fetchData()"><i class="fa fa-search"></i></button>
+                <img src="https://img.icons8.com/ios-glyphs/24/000000/microphone.png" class="mic-icon"/>
+            </div> -->
+            <div>
+                <ul class="middle-icons">
+                    <li>
+                        <input placeholder="Search" id="query" type="text">
+                        <button type="submit" id="search-icon" onclick="fetchData()"><i class="fa fa-search"></i></button>
+                    </li>
+                    <li>
+                        <img src="https://img.icons8.com/ios-glyphs/24/000000/microphone.png" class="mic-icon"/>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="corner-icons">
+                    <li>
+                        <img src="https://img.icons8.com/material-outlined/24/000000/squared-menu.png"/>
+                    </li>
+                    <li>
+                        <img src="https://img.icons8.com/windows/24/000000/video.png"/>
+                    </li>
+                    <li>
+                        <img src="https://img.icons8.com/ios/24/000000/appointment-reminders--v1.png"/>
+                    </li>
+                    <li id="last">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/guest-male.png"/>
+                    </li>
+                </ul>   
+            </div>
+        </nav>
+        <!-- <input type="text" id="query" placeholder="search something..."> -->
+        <!-- <button onclick="fetchData()">Search</button> -->
+        <div id="container"></div>
+    </body>
+    <script>
+        var container = document.getElementById("container");
+        var apiKey = "AIzaSyCjyiCO9jEYd3tq8H-JuWNzRYR-Y5OSoog";
+        async function fetchData(){
+            let query = document.getElementById("query").value;
+            if(query.length > 0){
+                let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?maxResults=20&key=${apiKey}&q=${query}&type=video&part=snippet`);
+                let data = await res.json();
+                console.log(data);
+                displayData(data.items);
+            }
+            // displayData(data.items);
+        }
+        fetchData();
+        var source = "";
+        function displayData(data){
+            container.innerHTML = "";
+            data.forEach((video)=>{
+                const {id : {videoId},kind,etag, snippet: {title}} = video;
+                // console.log(videoId);
+                var videoCard = document.createElement("div");
+                var iframe = document.createElement("iframe");
+                iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                source = videoId;
+                var videoLink = document.createElement("a");
+                videoLink.href = `https://www.youtube.com/watch?v=${source}`;
+                videoLink.target = "_blank";
+                var heading = document.createElement("h3");
+                heading.textContent = title;
+                // heading.addEventListener("click", newPage);
+                // var about = document.createElement("p");
+                // about.textContent = description;
+                videoLink.append(heading);
+                
+                videoCard.append(iframe, videoLink);
+                container.append(videoCard);
+            })
+        }
+        // function newPage(){
+        //     window.open(`https://www.youtube.com/watch?v=${source}`, "_blank");
+        // }
+    </script>
+</html>
